@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Gift, Send, Heart, Star, Sparkles } from "lucide-react";
 
 type GiftItem = {
@@ -10,23 +10,51 @@ type GiftItem = {
   timestamp: string;
 };
 
+const GIFT_STORAGE_KEY = "arc-network-gifts";
+
+const createDemoGift = (): GiftItem => ({
+  id: 1,
+  sender: "Ahmet",
+  receiver: "Ayşe",
+  message: "İyi günler!",
+  emoji: "🎉",
+  timestamp: new Date().toLocaleString("tr-TR"),
+});
+
+const loadGifts = (): GiftItem[] => {
+  if (typeof window === "undefined") {
+    return [createDemoGift()];
+  }
+
+  const storedGifts = window.localStorage.getItem(GIFT_STORAGE_KEY);
+  if (!storedGifts) {
+    return [createDemoGift()];
+  }
+
+  try {
+    const parsedGifts = JSON.parse(storedGifts);
+    if (Array.isArray(parsedGifts)) {
+      return parsedGifts as GiftItem[];
+    }
+  } catch {
+    window.localStorage.removeItem(GIFT_STORAGE_KEY);
+  }
+
+  return [createDemoGift()];
+};
+
 const App: React.FC = () => {
-  const [gifts, setGifts] = useState<GiftItem[]>([
-    {
-      id: 1,
-      sender: "Ahmet",
-      receiver: "Ayşe",
-      message: "İyi günler!",
-      emoji: "🎉",
-      timestamp: new Date().toLocaleString("tr-TR"),
-    },
-  ]);
+  const [gifts, setGifts] = useState<GiftItem[]>(loadGifts);
   const [sender, setSender] = useState("");
   const [receiver, setReceiver] = useState("");
   const [message, setMessage] = useState("");
   const [selectedEmoji, setSelectedEmoji] = useState("🎁");
 
   const emojis = ["🎁", "🎉", "💝", "🌟", "✨", "🎊", "🎈", "🌺"];
+
+  useEffect(() => {
+    window.localStorage.setItem(GIFT_STORAGE_KEY, JSON.stringify(gifts));
+  }, [gifts]);
 
   const sendGift = () => {
     if (!sender.trim() || !receiver.trim() || !message.trim()) {
