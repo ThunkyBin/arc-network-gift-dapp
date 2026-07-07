@@ -160,6 +160,8 @@ const App: React.FC = () => {
                     key={emoji}
                     type="button"
                     onClick={() => setSelectedEmoji(emoji)}
+                    aria-label={`${emoji} hediyesini seç`}
+                    aria-pressed={selectedEmoji === emoji}
                     className={`text-4xl p-3 rounded-xl transition transform hover:scale-110 ${
                       selectedEmoji === emoji
                         ? "bg-purple-200 shadow-lg scale-110"
