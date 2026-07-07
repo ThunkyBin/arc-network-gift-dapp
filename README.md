@@ -1,8 +1,29 @@
-# React + Tailwind
+# Arc Network Gift dApp
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules. One top of the standard Vite setup, [tailwindcss](https://tailwindcss.com/) is installed and ready to be used in React components.
+Small React and Tailwind demo for sending friendly gift messages on an Arc
+Network themed interface.
 
-Additional references:
-* [Getting started with Vite](https://vitejs.dev/guide/)
-* [Tailwind documentation](https://tailwindcss.com/docs/installation)
+## Features
 
+- Create a gift with sender, receiver, message, and emoji.
+- Keep sent gifts in local browser storage.
+- Show the latest gifts first.
+- Provide accessible emoji picker buttons.
+
+## Scripts
+
+- `npm run dev` starts the Vite dev server.
+- `npm run build` type-checks and builds the app.
+- `npm run preview` serves the production build locally.
+
+## Stack
+
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS
+- lucide-react
+
+## Note
+
+This is a frontend demo. It does not submit real blockchain transactions yet.
