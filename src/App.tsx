@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Gift, Send, Heart, Star, Sparkles } from "lucide-react";
 
 type GiftItem = {
-  id: number;
+  id: string;
   sender: string;
   receiver: string;
   message: string;
@@ -12,8 +12,16 @@ type GiftItem = {
 
 const GIFT_STORAGE_KEY = "arc-network-gifts";
 
+const createGiftId = () => {
+  if (typeof crypto !== "undefined" && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+
+  return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+};
+
 const createDemoGift = (): GiftItem => ({
-  id: 1,
+  id: "demo-1",
   sender: "Ahmet",
   receiver: "Ayşe",
   message: "İyi günler!",
@@ -62,7 +70,7 @@ const App: React.FC = () => {
       return;
     }
     const newGift: GiftItem = {
-      id: gifts.length + 1,
+      id: createGiftId(),
       sender: sender.trim(),
       receiver: receiver.trim(),
       message: message.trim(),
